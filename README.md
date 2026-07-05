@@ -4,7 +4,7 @@ A functional implementation of the design in `oncall-scheduling-system-design.md
 JWT auth, per-team role-based permissions, a scheduling grid, user management,
 the 10-day/weekend-priority auto-generation algorithm, and a monthly Excel
 export. Backend is Node/Express + SQLite; frontend is React + Vite.
-
+-- this is for testing only--
 This is a **working prototype**, not a hardened production build — see
 `DEPLOYMENT.md` for what to change before real use (Postgres, secrets, HTTPS, etc.).
 

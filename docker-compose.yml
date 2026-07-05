@@ -1,0 +1,26 @@
+services:
+  backend:
+    build:
+      context: ./backend
+    environment:
+      PORT: 4000
+      DB_PATH: /app/data/oncall.db
+      EXPORT_DIR: /app/exports
+      JWT_SECRET: dev-secret-change-me
+    volumes:
+      - backend-data:/app/data
+      - backend-exports:/app/exports
+    expose:
+      - "4000"
+
+  frontend:
+    build:
+      context: ./frontend
+    depends_on:
+      - backend
+    ports:
+      - "8080:80"
+
+volumes:
+  backend-data:
+  backend-exports:

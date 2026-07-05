@@ -1,0 +1,458 @@
+/* Design tokens ------------------------------------------------------------
+   Theme concept: a "duty roster" — the app shell reads like a control-room
+   watch board (dark chrome, signal-amber "on duty" beacon), while the
+   working surface is a clean, light, data-dense table since this is a
+   scheduling tool people scan quickly, not a marketing page. */
+:root {
+  --ink-900: #14181f;
+  --ink-800: #1c2230;
+  --ink-600: #3a4356;
+  --paper-0: #f7f7f5;
+  --paper-100: #ffffff;
+  --line: #e2e2de;
+  --signal-amber: #f2a93b;
+  --signal-amber-dim: #f2a93b33;
+  --teal-700: #1f6f78;
+  --teal-100: #e3f1f1;
+  --red-600: #b3261e;
+  --text-primary: #1c2230;
+  --text-muted: #6b7280;
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'IBM Plex Sans', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+  --radius: 8px;
+}
+
+* { box-sizing: border-box; }
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--paper-0);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible {
+  outline: 2px solid var(--signal-amber);
+  outline-offset: 2px;
+}
+
+/* Layout ------------------------------------------------------------------ */
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 240px;
+  flex-shrink: 0;
+  background: var(--ink-900);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 16px;
+}
+
+.sidebar-brand {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 28px;
+  letter-spacing: -0.01em;
+}
+
+.beacon {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--signal-amber);
+  box-shadow: 0 0 0 4px var(--signal-amber-dim);
+  animation: pulse 2.2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 3px var(--signal-amber-dim); }
+  50% { box-shadow: 0 0 0 7px transparent; }
+}
+
+.team-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 20px;
+}
+
+.team-list-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #8892a6;
+  margin: 12px 4px 6px;
+}
+
+.team-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 10px;
+  border-radius: var(--radius);
+  color: #cfd4e0;
+  font-size: 14px;
+  text-align: left;
+  background: transparent;
+  border: none;
+  width: 100%;
+}
+
+.team-item:hover { background: var(--ink-800); }
+.team-item.active { background: var(--ink-800); color: #fff; font-weight: 600; }
+
+.team-item .role-tag {
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: #8892a6;
+  text-transform: uppercase;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: auto;
+}
+
+.nav-item {
+  padding: 9px 10px;
+  border-radius: var(--radius);
+  color: #cfd4e0;
+  font-size: 14px;
+  background: transparent;
+  border: none;
+  text-align: left;
+  width: 100%;
+}
+.nav-item:hover { background: var(--ink-800); }
+.nav-item.active { background: var(--signal-amber); color: var(--ink-900); font-weight: 600; }
+
+.signout {
+  margin-top: 12px;
+  padding: 9px 10px;
+  color: #8892a6;
+  font-size: 13px;
+  background: transparent;
+  border: 1px solid var(--ink-800);
+  border-radius: var(--radius);
+}
+.signout:hover { color: #fff; border-color: #4a5470; }
+
+.main {
+  flex: 1;
+  padding: 28px 36px;
+  overflow-x: auto;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.page-title {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+.page-sub {
+  color: var(--text-muted);
+  font-size: 13px;
+  margin-top: 2px;
+}
+
+.btn {
+  padding: 9px 16px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--paper-100);
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--text-primary);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn:hover { border-color: var(--ink-600); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-primary {
+  background: var(--ink-900);
+  color: #fff;
+  border-color: var(--ink-900);
+}
+.btn-primary:hover { background: var(--ink-800); }
+
+.btn-amber {
+  background: var(--signal-amber);
+  border-color: var(--signal-amber);
+  color: var(--ink-900);
+}
+.btn-amber:hover { filter: brightness(0.95); }
+
+.btn-danger {
+  color: var(--red-600);
+  border-color: #f0c8c5;
+}
+.btn-danger:hover { background: #fdf1f0; }
+
+.card {
+  background: var(--paper-100);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+/* Login --------------------------------------------------------------- */
+.login-wrap {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ink-900);
+  background-image: radial-gradient(circle at 20% 20%, #1c2230 0%, #14181f 60%);
+}
+
+.login-card {
+  width: 380px;
+  background: var(--paper-100);
+  border-radius: 14px;
+  padding: 36px 32px;
+  box-shadow: 0 30px 60px -20px rgba(0,0,0,0.5);
+}
+
+.login-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.login-tagline {
+  color: var(--text-muted);
+  font-size: 13px;
+  margin-bottom: 26px;
+}
+
+.field {
+  margin-bottom: 16px;
+}
+.field label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.field input, .field select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  font-size: 14px;
+  font-family: inherit;
+  background: var(--paper-0);
+}
+.field input:focus, .field select:focus {
+  border-color: var(--signal-amber);
+  outline: none;
+}
+
+.field-hint {
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.error-box {
+  background: #fdf1f0;
+  color: var(--red-600);
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.demo-hint {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--line);
+  font-size: 12px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  line-height: 1.6;
+}
+
+/* Tables --------------------------------------------------------------- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+th {
+  text-align: left;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: middle;
+}
+tr:last-child td { border-bottom: none; }
+
+.role-badge {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 100px;
+  display: inline-block;
+  font-weight: 600;
+}
+.role-badge.MEMBER { background: #eef0f3; color: var(--ink-600); }
+.role-badge.SCHEDULER { background: var(--teal-100); color: var(--teal-700); }
+.role-badge.TEAM_ADMIN { background: var(--signal-amber-dim); color: #8a5a10; }
+
+/* Scheduling grid -------------------------------------------------------- */
+.grid-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--paper-100); }
+.sched-grid { border-collapse: collapse; font-size: 12px; }
+.sched-grid th, .sched-grid td {
+  border: 1px solid var(--line);
+  padding: 0;
+  text-align: center;
+  min-width: 34px;
+  height: 34px;
+}
+.sched-grid th.member-col, .sched-grid td.member-col {
+  min-width: 160px;
+  text-align: left;
+  padding: 0 10px;
+  font-weight: 500;
+  position: sticky;
+  left: 0;
+  background: var(--paper-100);
+  z-index: 1;
+}
+.sched-grid th { background: var(--paper-0); font-weight: 600; color: var(--text-muted); font-family: var(--font-mono); font-size: 11px; }
+.sched-grid th.member-col { background: var(--paper-0); }
+.day-col.weekend { background: #fff8ec; }
+.cell-btn {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cell-btn.on-weekend { background: var(--signal-amber); }
+.cell-btn.on-weekday { background: var(--teal-700); }
+.cell-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #fff;
+}
+.cell-btn:hover:not(.on-weekend):not(.on-weekday) { background: #eee; }
+.cell-btn[disabled] { cursor: default; }
+
+.count-badge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.count-badge.ok { background: var(--teal-100); color: var(--teal-700); }
+.count-badge.warn { background: #fdf1f0; color: var(--red-600); }
+
+.legend {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 12px;
+}
+.legend-swatch { width: 10px; height: 10px; border-radius: 3px; display: inline-block; margin-right: 6px; vertical-align: -1px; }
+
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--ink-900);
+  color: #fff;
+  padding: 12px 18px;
+  border-radius: var(--radius);
+  font-size: 13px;
+  box-shadow: 0 12px 30px -10px rgba(0,0,0,0.4);
+  z-index: 100;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-muted);
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(20,24,31,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+.modal {
+  width: 380px;
+  background: var(--paper-100);
+  border-radius: 12px;
+  padding: 24px;
+}
+.modal h3 {
+  font-family: var(--font-display);
+  margin: 0 0 4px;
+}
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 20px;
+}

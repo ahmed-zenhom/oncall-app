@@ -1,0 +1,6 @@
+node_modules
+exports
+oncall.db
+oncall.db-wal
+oncall.db-shm
+.git
